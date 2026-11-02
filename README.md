@@ -89,5 +89,5 @@ For reproduction of the paper's calculations, use the preserved verification arc
 
 When referring to these computations, cite the accompanying paper:
 
-> M. R. DeDeo, *An Exponent Restriction for Odd Perfect Numbers Not Divisible by Three*.
+> M. R. DeDeo, *An Exponent Restriction for Odd Perfect Numbers Not Divisible by Three*. https://github.com/dedeophd/opn-exponent-restrictions
 
