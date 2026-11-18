@@ -2,8 +2,6 @@
 
 Companion to *An Exponent Restriction for Odd Perfect Numbers Not Divisible by Three*, by M. R. DeDeo.
 
-This revision uses the two-output bound `169/99` and assigns exponent four to non-Euler output primes in the forced-divisor calculation. It supersedes the earlier computation with 99 excluded seed sets and 17 minimal sets.
-
 ## Reproduction
 
 Extract the archive, preserve its directory structure, and run from the `OPN_verification` directory:
