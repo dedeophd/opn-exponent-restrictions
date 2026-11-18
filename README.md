@@ -1,4 +1,4 @@
-# OPN computational verification: revised Sections 2–6
+# OPN computational verification
 
 Companion to *An Exponent Restriction for Odd Perfect Numbers Not Divisible by Three*, by M. R. DeDeo.
 
