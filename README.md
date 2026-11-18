@@ -1,93 +1,69 @@
-# Odd Perfect Numbers: Exponent Restrictions
+# OPN computational verification: revised Sections 2–6
 
-Computational verification materials for **An Exponent Restriction for Odd Perfect Numbers Not Divisible by Three**, by **M. R. DeDeo**.
+Companion to *An Exponent Restriction for Odd Perfect Numbers Not Divisible by Three*, by M. R. DeDeo.
 
-## Mathematical result
+This revision uses the two-output bound `169/99` and assigns exponent four to non-Euler output primes in the forced-divisor calculation. It supersedes the earlier computation with 99 excluded seed sets and 17 minimal sets.
 
-Let $N=q^k\prod_{i=1}^{t}p_i^{a_i}$ be an odd perfect number in Eulerian form, with $3\nmid N$. The paper proves that at least three non-Euler exponents satisfy $a_i\not\equiv2\pmod6$.
+## Reproduction
 
-Thus at least three distinct non-Euler prime-power components must have exponents outside the sequence $2,8,14,\ldots$. Since these exponents are even, each such exponent is congruent to $0$ or $4$ modulo $6$. The result requires no upper bound on the size of $N$, its component exponents, or its number of prime factors.
+Extract the archive, preserve its directory structure, and run from the `OPN_verification` directory:
 
-The proof combines cyclotomic divisibility, abundancy estimates, exact finite computations, and analytic bounds on the infinite remainder. Complementary computations identify seventeen inclusion-minimal forbidden combinations from a specified pool of nine source primes.
-
-## Download and run
-
-Download the verification ZIP archive from this repository and extract it. The archive contains a directory named `OPN_verification`. Preserve its internal directory structure.
-
-**Requirements:** Python 3.8 or later. No third-party Python packages are required. LaTeX is not needed to run the verification.
-
-Open a terminal in the extracted directory and run:
-
-```bash
-cd OPN_verification
+```sh
 python3 verify_all.py
 ```
 
-On Windows, if Python is installed through the Python launcher, use:
+Python 3.8 or later is required; no third-party packages are needed. LaTeX is not needed for verification. The tested interpreter is recorded in `reproduction_receipt.json`.
 
-```powershell
-cd OPN_verification
-py -3 verify_all.py
-```
+The driver checks the SHA-256 manifest, copies `verification/` to a temporary directory, and runs seven tasks. Each task must pass, and its regenerated record must agree with the archived record. Only the interpreter-version field is omitted from record comparison. The packaged certificates remain unchanged.
 
-The driver checks seventeen SHA-256 manifest entries, copies the verification programs and records into a temporary directory, and runs five verification tasks there. The packaged records remain unchanged.
+A successful run prints a JSON object with `status: PASS`, seven successful checks, and `archived_record_matched: true` for every check. To retain a new receipt:
 
-A successful run prints a JSON object containing `"status": "PASS"`, `"manifest_files": 17`, and five check results, each with `"status": "PASS"`.
-
-To save your own reproduction receipt:
-
-```bash
+```sh
 python3 verify_all.py > new_reproduction_receipt.json
 ```
 
-The archived `reproduction_receipt.json` records a successful run with Python 3.12.14. Each task has a 120-second timeout; slower hardware may exceed this limit. A timeout indicates that the task did not finish within the allotted time, rather than a failed mathematical inequality.
+Each task has a 120-second timeout. On substantially slower hardware, the timeout in `verify_all.py` can be increased in a working copy; its manifest hash must then be regenerated. A timeout means the calculation did not finish within the allowed time.
+
+## Correspondence to the article
+
+| Program under `verification/` | Calculation |
+|---|---|
+| `opn_pivot16/verify_residue_exclusion.py` | The 86 source factorizations, mixed-source minima, finite product, and rational two-output tail in Section 2 |
+| `opn_audit17/check_certificate.py` | Separate read-only check of that certificate, including four damaged records that must be rejected; invoked by the output-bound and three-output tasks |
+| `opn_stage18/verify_two_exception_bounds.py` | The revised two-output constant, residue cases, and the 1600 cutoff in Section 3 |
+| `opn_stage19/verify_three_output_exclusion.py` | The Euler-prime comparison, output lists, three-output enumeration, and rational tail estimates in Sections 3–4 |
+| `opn_stage19/check_head_independently.py` | The same finite maximum by direct radical divisibility and integer cross multiplication |
+| `opn_review25/review_three_exception.py` | Fresh factorization, unordered-support enumeration, rational comparisons, and the numerical bounds for the three-exception residue corollary; imports no project code or certificates |
+| `opn_stage21/verify_forced_families.py` | The strengthened seed inventory, including every permitted Euler choice, in Section 5 |
+| `opn_stage21/check_forced_families_independently.py` | Separate factorization and bit-mask enumeration, using integer divisor sums and cross multiplication to check every Euler choice, lower bound, and minimal set |
 
 ## Expected results
 
-| Computation | Expected result |
+| Calculation | Expected result |
 |---|---|
-| Three-output enumeration | 907,360 role-weighted configurations |
+| Source primes in the finite interval | 86 |
+| Uniform two-output bound | `169/99` |
+| Two-output logarithmic tail bound | `3244296875/350791685712 < 1/100` |
+| Output configurations, with the Euler prime distinguished | 907,360 |
 | Maximum finite contribution | `538811/328320` |
 | Maximizing assignment | `(q,r,s) = (13,7,31)` |
-| Small source primes at the maximum | `5, 191` |
-| Bound used in the final comparison | `50/27 < 2` |
-| Nonempty subsets of the nine-prime seed pool | 511 |
-| Excluded subsets | 99 |
-| Inclusion-minimal excluded subsets | 17 |
+| Sources at the maximum | `5, 191` |
+| Final upper bound for the reduced three-output case | `50/27 < 2` |
+| Seed subsets examined | 511 |
+| Excluded seed subsets | 103 |
+| Inclusion-minimal excluded seed sets | 18 |
+| Remaining seed subsets not excluded by this test | 408 |
+| Forced-prime counts in the minimal seed sets | 10 through 15 |
+| Bound in the three-exception residue corollary | `2873/1440 < 2` |
 
-The separate finite-maximum checker uses a second implementation. An additional enumeration uses unordered output supports and checks agreement with the role-weighted count.
+The seed certificate records the supports, Euler choices, forced divisors and divisor sums, exact rational lower bounds, and minimal-family coverage. Source primes receive exponent two; non-Euler outputs receive exponent four; a permitted Euler output receives exponent one. An Euler prime outside the forced support is also allowed.
 
-## Package contents
+## Files and scope
 
-The ZIP contains nineteen files: eight Python programs, seven JSON records, a README, a SHA-256 manifest, and two optional LaTeX listing wrappers.
+The archive contains nine Python programs, eight JSON records including the reproduction receipt, this README, a SHA-256 manifest, and two optional LaTeX listing wrappers. The wrappers include the current files and can regenerate readable listings. No previously generated listings PDF is included in this revision.
 
-| File or directory | Purpose |
-|---|---|
-| `verify_all.py` | Runs the manifest check and all five verification tasks |
-| `MANIFEST.sha256` | Records hashes for seventeen packaged files |
-| `reproduction_receipt.json` | Archived successful execution receipt |
-| `verification/opn_pivot16/` | Source factorizations, residue exclusions, and their certificate |
-| `verification/opn_audit17/` | Source-certificate checker invoked by the two-exception task |
-| `verification/opn_stage18/` | Two-exception bounds and archived results |
-| `verification/opn_stage19/` | Three-output enumeration, separate finite-maximum checker, and certificates |
-| `verification/opn_review25/` | Enumeration using unordered output supports and its receipt |
-| `verification/opn_stage21/` | Forced-divisor seed-family computation and certificate |
-| `OPN_py_listings.tex` | Optional legacy LaTeX wrapper for Python listings |
-| `OPN_json_listings.tex` | Optional legacy LaTeX wrapper for JSON listings |
+`MANIFEST.sha256` covers nineteen files, excluding itself and the top-level reproduction receipt. Hashes check file integrity. The independently implemented calculations check finite arithmetic. The mathematical reductions, published prime-power and primitive-divisor inputs, and the justification of the infinite-tail bounds remain in the article.
 
-The directory names are retained because the programs use relative paths. The two LaTeX wrappers are not needed for verification. The formatted computational supplement accompanies the paper separately.
+The primitive-divisor corollary in Section 5 requires no additional finite enumeration. The numerical comparisons in the other new corollary are checked by the standalone review program.
 
-## Scope and reproducibility
-
-The programs verify the finite calculations supporting the paper. The mathematical reductions and the justification of the analytic bounds remain in the article. A successful computation is not a machine-checked proof of the entire theorem or an external peer review.
-
-The manifest checks byte consistency. It excludes itself and the top-level reproduction receipt. The README inside the archive is covered by the manifest: editing that file will cause the integrity check to fail. This repository README is separate from the archived README.
-
-For reproduction of the paper's calculations, use the preserved verification archive. Any subsequent code changes should be distinguished from that archived snapshot.
-
-## Citation
-
-When referring to these computations, cite the accompanying paper:
-
-> M. R. DeDeo, *An Exponent Restriction for Odd Perfect Numbers Not Divisible by Three*. https://github.com/dedeophd/opn-exponent-restrictions
-
+The source directory names are retained to preserve relative paths; they do not identify theorem numbers in the revised manuscript.
